@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Cuenta Regresiva</title>
+</head>
+<body>
+<div class="container">
+    <h1>PROXIMAMENTE...</h1>
+    <p class="back">en...</p>
+
+    <div class="countdown">
+        <div>
+            <p id="days">0</p>
+            <span>DÍAS</span>
+        </div>
+        <div>
+            <p id="hours">0</p>
+            <span>HORAS</span>
+        </div>
+        <div>
+            <p id="min">0</p>
+            <span>MINUTOS</span>
+        </div>
+        <div>
+            <p id="sec">0</p>
+            <span>SEGUNDOS</span>
+        </div>
+    </div>
+
+    <div class="play-btn-container">
+        <img src="play.png" alt="Reproducir música" id="play-btn">
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<script>
+    // ---- Contador real hasta 18 de diciembre a las 11:00 AM ----
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minEl = document.getElementById('min');
+    const secEl = document.getElementById('sec');
+
+    // Fecha objetivo
+    const targetDate = new Date('2025-12-18T11:00:00').getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+            daysEl.textContent = 0;
+            hoursEl.textContent = 0;
+            minEl.textContent = 0;
+            secEl.textContent = 0;
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        daysEl.textContent = days;
+        hoursEl.textContent = hours;
+        minEl.textContent = minutes;
+        secEl.textContent = seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // ---- Reproducir música al pulsar la imagen ----
+    const audio = document.getElementById("bg-music");
+    const playBtn = document.getElementById("play-btn");
+
+    playBtn.addEventListener("click", () => {
+        audio.play();
+        playBtn.style.display = "none";
+    });
+</script>
+</body>
+</html>
